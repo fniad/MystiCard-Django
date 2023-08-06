@@ -1,0 +1,104 @@
+[
+  {
+    "model": "catalog.product",
+    "pk": 1,
+    "fields": {
+      "name_product": "Таро Ворон",
+      "description_product": "Основой для Таро Ворон стала классическая система Уэйта. Сюжеты иллюстраций повторяются, а действующими лицами являются черные вороны.",
+      "preview_img": "",
+      "category": "Таро",
+      "purchase_price": 1827.0,
+      "date_create": "2023-08-06",
+      "date_last_modified": "2023-08-06",
+      "archive": false
+    }
+  },
+  {
+    "model": "catalog.product",
+    "pk": 2,
+    "fields": {
+      "name_product": "Таро Убийство Ворон",
+      "description_product": "Таро Убийство Ворон",
+      "preview_img": "",
+      "category": "Таро",
+      "purchase_price": 2362.0,
+      "date_create": "2023-08-06",
+      "date_last_modified": "2023-08-06",
+      "archive": false
+    }
+  },
+  {
+    "model": "catalog.product",
+    "pk": 3,
+    "fields": {
+      "name_product": "Таро Ведьм",
+      "description_product": "Таро Ведьмы Эллен Дуган расскажут, как сложится ваша личная жизнь, ваша карьера, ваши финансовые вопросы.",
+      "preview_img": "",
+      "category": "Таро",
+      "purchase_price": 1657.0,
+      "date_create": "2023-08-06",
+      "date_last_modified": "2023-08-06",
+      "archive": false
+    }
+  },
+  {
+    "model": "catalog.product",
+    "pk": 4,
+    "fields": {
+      "name_product": "Таро Безумной Луны",
+      "description_product": "В иллюстрациях использована уникальная технологии дизайна, изобретённая самим автором колоды. Ирреальные яркие образы этого креативного Таро, приглашающие в мир воображения и снов, идеально подходят для работы с подсознанием и решения вопросов психологии.",
+      "preview_img": "",
+      "category": "Таро",
+      "purchase_price": 1197.0,
+      "date_create": "2023-08-06",
+      "date_last_modified": "2023-08-06",
+      "archive": false
+    }
+  },
+  {
+    "model": "catalog.product",
+    "pk": 5,
+    "fields": {
+      "name_product": "Набор свечей с травами \"На любой случай\" 30шт",
+      "description_product": "Набор свечей из пчелиного воска в травах. 5 цветов, по 6 штук каждого цвета. Исключительная подборка трав для исполнения Ваших желаний.",
+      "preview_img": "",
+      "category": "Ароматерапия",
+      "purchase_price": 351.0,
+      "date_create": "2023-08-06",
+      "date_last_modified": "2023-08-06",
+      "archive": false
+    }
+  },
+  {
+    "model": "catalog.category",
+    "pk": 1,
+    "fields": {
+      "name_category": "Благовония",
+      "description_category": "Благовония из Индии, Тибета, Китая и Японии"
+    }
+  },
+  {
+    "model": "catalog.category",
+    "pk": 2,
+    "fields": {
+      "name_category": "Ароматерапия",
+      "description_category": "Ароматические масла и лампы"
+    }
+  },
+  {
+    "model": "catalog.category",
+    "pk": 3,
+    "fields": {
+      "name_category": "Таро",
+      "description_category": "Карты таро"
+    }
+  },
+  {
+    "model": "catalog.category",
+    "pk": 4,
+    "fields": {
+      "name_category": "Книги",
+      "description_category": "Книги по изучению карт таро"
+    }
+  }
+]
