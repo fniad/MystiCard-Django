@@ -1,28 +1,6 @@
 from django.db import models
-from django.utils import timezone
-from django.utils.timezone import make_aware
 
 NULLABLE = {'blank': True, 'null': True}
-
-
-class Product(models.Model):
-    name_product = models.CharField(max_length=150, verbose_name='продукт')
-    description_product = models.TextField(verbose_name='описание')
-    preview_img = models.ImageField(upload_to='products/', verbose_name='изображение превью', ** NULLABLE)
-    category = models.CharField(max_length=50, verbose_name='категория')
-    purchase_price = models.FloatField(verbose_name='цена за покупку')
-    date_create = models.DateField(verbose_name='дата создания', default='2023-08-06')
-    date_last_modified = models.DateField(verbose_name='дата последнего изменения')
-
-    archive = models.BooleanField(default=False, verbose_name='архивный')
-
-    def __str__(self):
-        return f'{self.name_product} {self.category} {self.purchase_price}'
-
-    class Meta:
-        verbose_name = 'продукт'
-        verbose_name_plural = 'продукты'
-        ordering = ('pk',)
 
 
 class Category(models.Model):
@@ -36,6 +14,26 @@ class Category(models.Model):
         verbose_name = 'категория'
         verbose_name_plural = 'категории'
         ordering = ('name_category',)
+
+
+class Product(models.Model):
+    name_product = models.CharField(max_length=150, verbose_name='продукт')
+    description_product = models.TextField(verbose_name='описание')
+    preview_img = models.ImageField(upload_to='products/', verbose_name='изображение превью', ** NULLABLE)
+    category = models.ForeignKey(Category, on_delete=models.CASCADE)
+    purchase_price = models.FloatField(verbose_name='цена за покупку')
+    date_create = models.DateField(verbose_name='дата создания', default='2023-08-06')
+    date_last_modified = models.DateField(verbose_name='дата последнего изменения')
+
+    archive = models.BooleanField(default=False, verbose_name='архивный')
+
+    def __str__(self):
+        return f'{self.name_product} {self.category} {self.purchase_price}'
+
+    class Meta:
+        verbose_name = 'продукт'
+        verbose_name_plural = 'продукты'
+        ordering = ('pk',)
 
 
 class ContactFormMessage(models.Model):
