@@ -5,11 +5,18 @@ from catalog.models import ContactFormMessage
 
 
 def index(request):
+
     last_five_products = Product.objects.order_by('date_create')[:5]
     for product in last_five_products:
         print(product.name_product)  # Вывод в консоль названия последних 5 товаров
-    return render(request, 'catalog/index.html',
-                  {'last_five_products': last_five_products})
+
+    context = {
+        # 'object_list': student_list,
+        'title': 'Главная',
+        'last_five_products': last_five_products
+    }
+
+    return render(request, 'catalog/index.html', context)
 
 
 def contact(request):
@@ -25,4 +32,8 @@ def contact(request):
         contact_message = ContactFormMessage(name=name, phone=phone, email=email, message=message, data_sent=data_sent)
         contact_message.save()
 
-    return render(request, 'catalog/contact.html')
+    context = {
+        'title': 'Контакты'
+    }
+
+    return render(request, 'catalog/contact.html', context)
