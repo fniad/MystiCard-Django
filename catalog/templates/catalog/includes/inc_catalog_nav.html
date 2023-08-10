@@ -7,6 +7,7 @@
                         <div class="d-flex align-items-center m-1">
                             <img style="padding-right: 8px;"
                                  src="/media/{{ 'Mystic.png' }}">
+                            <!--src="{{ 'Mystic.png'|mediapath }}">-->
                             <h1>MystiCard</h1>
                         </div>
                     </li>
@@ -16,7 +17,8 @@
                     <li class="nav-item"><a class="nav-link" href="{% url 'catalog:contact' %}">Контакты</a></li>
                     <li class="nav-item"><a class="nav-link disabled" aria-disabled="true">Корзина</a></li>
                     <li class="nav-item"><a class="nav-link disabled" aria-disabled="true">Заказы</a></li>
-                    <li class="nav-item"><a class="nav-link" href="{% url 'catalog:add_product' %}">Добавить товар</a></li>
+                    <li class="nav-item"><a class="nav-link" href="{% url 'catalog:add_product' %}">Добавить товар</a>
+                    </li>
                 </ul>
             </div>
         </div>
