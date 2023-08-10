@@ -41,7 +41,7 @@ class ContactFormMessage(models.Model):
     phone = models.CharField(max_length=20, verbose_name='телефон')
     email = models.EmailField(verbose_name='email')
     message = models.TextField(verbose_name='сообщение')
-    data_sent = models.CharField(verbose_name='дата сообщения')
+    data_sent = models.CharField(max_length=30, verbose_name='дата сообщения')
 
     def __str__(self):
         return f'You have new message from {self.name}({self.phone} {self.email}): {self.message}'
