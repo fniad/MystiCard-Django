@@ -1,12 +1,11 @@
 {% extends 'catalog/base.html' %}
-
 {% block content %}
 
 <div class="container border-bottom"
      style="width: 100%; height: 450px; overflow: hidden; padding-top: 50px; padding-bottom: 70px;">
-    <img src="https://images.unsplash.com/photo-1568821137008-6a947a8decfc?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1170&q=80"
-         class="img-fluid" style="width: 100%; height: 100%; object-fit: cover;">
+     <img src="/media/{{ 'catalog_wellcome.jpg'}}" class="img-fluid" style="width: 100%; height: 100%; object-fit: cover;">
 </div>
+
 <div class="container" style="padding-top: 40px;">
     <h1 class="display-4 text-center fw-normal text-body-emphasis" style="padding-bottom: 30px;">Добро пожаловать!</h1>
     <div class="row" style="padding-bottom: 30px;">
@@ -22,64 +21,59 @@
         <p>На текущий момент на сайте доступны несколько тарифов, которые предоставляют разный доступ по уровню к
             различным статьям.</p>
     </div>
+
     <hr style="border: 0; height: 1px; background-color: #6c757d;">
-    <div class="container" style="padding-top:40px; padding-bottom: 40px;">
-        <h3 class="display-5 text-center fw-normal text-body-emphasis">Текущие тарифы:</h3>
-        <div class="row row-cols-1 row-cols-md-3 mb-3 text-center" style="padding-top: 50px;">
-            <div class="col">
-                <div class="card mb-4 rounded-3 shadow-sm">
-                    <div class="card-header py-3">
-                        <h4 class="my-0 fw-normal">Бесплатно</h4>
-                    </div>
-                    <div class="card-body">
-                        <h1 class="card-title pricing-card-title">0 руб<small class="text-body-secondary fw-light">/месяц</small>
-                        </h1>
-                        <ul class="list-unstyled mt-3 mb-4">
-                            <li>• статьи с общим значением арканов</li>
-                            <li>• простые раскладов</li>
-                            <li>• возможность задать вопрос</li>
-                            <li>• скидка на покупку карт первые 5 дней</li>
-                        </ul>
-                        <button type="button" class="w-100 btn btn-lg btn-outline-success">Узнать сигнификатор</button>
-                    </div>
-                </div>
-            </div>
-            <div class="col">
-                <div class="card mb-4 rounded-3 shadow-sm">
-                    <div class="card-header py-3">
-                        <h4 class="my-0 fw-normal">Любитель</h4>
-                    </div>
-                    <div class="card-body">
-                        <h1 class="card-title pricing-card-title">450 руб<small class="text-body-secondary fw-light">/месяц</small>
-                        </h1>
-                        <ul class="list-unstyled mt-3 mb-4">
-                            <li>• статьи о сочетании карт</li>
-                            <li>• сложные расклады</li>
-                            <li>• небольшой расклад раз в месяц от наставницы</li>
-                            <li>• доступ на общий форум</li>
-                        </ul>
-                        <button type="button" class="w-100 btn btn-lg btn-success">Разложить расклад</button>
-                    </div>
-                </div>
-            </div>
-            <div class="col">
-                <div class="card mb-4 rounded-3 shadow-sm border-success">
-                    <div class="card-header py-3 text-bg-success border-success">
-                        <h4 class="my-0 fw-normal">Знаток</h4>
-                    </div>
-                    <div class="card-body">
-                        <h1 class="card-title pricing-card-title">700 руб<small class="text-body-secondary fw-light">/месяц</small>
-                        </h1>
-                        <ul class="list-unstyled mt-3 mb-4">
-                            <li>• доступ к видео-разборам</li>
-                            <li>• разбор определённых случаев</li>
-                            <li>• ускоренные ответы на вопросы</li>
-                            <li>• все остальные бонусы для прочих тарифов</li>
-                        </ul>
-                        <button type="button" class="w-100 btn btn-lg btn-success">Обратиться к наставнице</button>
+
+    <h3 class="display-5 text-center fw-normal text-body-emphasis" style="padding-top: 30px;">Товары</h3>
+    <div class="container" style="padding-top: 50px;">
+        <div class="row mb-3">
+            {% for object in page_obj %}
+            <div class="col-4" style="padding-bottom: 20px;">
+                <div class="card shadow-sm" style="height: 600px;">
+                    <svg class="bd-placeholder-img card-img-top" width="100%" height="250px" style="min-height: 250px;"
+                         xmlns="http://www.w3.org/2000/svg" role="img">
+                        <rect width="100%" height="100%" fill="#55595c"/>
+                    </svg>
+                    <div class="card-body" style="height: 250px;">
+                        <div class="position-relative">
+                            <p class="card-text text-end"
+                               style="padding-top: 15px; min-height: 10px; max-height: 10px; font-size: 70%;">
+                                {{ object.category }}
+                            </p>
+
+                            {% if object.name_product|length > 35 %}
+                            <p class="card-text" style="font-size: 120%; padding-top: 10px; padding-bottom: 5px;">
+                                <a href="{% url 'catalog:product_info' %}" style="color: green;">
+                                    {{ object.name_product|slice:":35" }}...</a>
+                            </p>
+                            {% else %}
+                            <p class="card-text" style="font-size: 120%; padding-top: 10px; padding-bottom: 5px;">
+                                <a href="{% url 'catalog:product_info' %}" style="color: green;">
+                                    {{ object.name_product }}</a>
+                            </p>
+                            {% endif %}
+
+                            {% if object.description_product|length > 200 %}
+                            <p class="card-text"
+                               style="min-height: 120px; max-height: 120px; font-size: 85%;">
+                                {{ object.description_product|slice:":200" }}...</p>
+                            {% else %}
+                            <p class="card-text"
+                               style="min-height: 120px; max-height: 120px; font-size: 85%;">
+                                {{ object.description_product|slice:":200" }}</p>
+                            {% endif %}
+
+                            <p class="card-text" style="font-size: 130%;">{{ object.purchase_price }} руб.</p>
+                            <div class="btn-group" style="grid-row: 3">
+                                <button type="button" class="btn btn-sm btn-outline-secondary">Добавить в корзину
+                                </button>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
+            {% endfor %}
+            {% include 'catalog/includes/inc_pagin_products.html' %}
         </div>
     </div>
 </div>
