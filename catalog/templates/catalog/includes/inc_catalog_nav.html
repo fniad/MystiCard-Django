@@ -1,3 +1,5 @@
+{% load static %}
+{% load my_filters %}
 <nav class="navbar navbar-expand-md sticky-top border-bottom" style="background-color: #fff;">
     <div class="container">
         <div class="offcanvas offcanvas-end" tabindex="-1" id="#offcanvas" aria-labelledby="#offcanvasLabel">
@@ -6,8 +8,7 @@
                     <li class="text" style="padding-right: 50px;">
                         <div class="d-flex align-items-center m-1">
                             <img style="padding-right: 8px;"
-                                 src="/media/{{ 'Mystic.png' }}">
-                            <!--src="{{ 'Mystic.png'|mediapath }}">-->
+                           src="{{ 'Mystic.png'|mediapath }}">
                             <h1>MystiCard</h1>
                         </div>
                     </li>
