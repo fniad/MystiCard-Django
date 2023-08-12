@@ -3,6 +3,7 @@ from catalog.models import Product
 from datetime import datetime
 from catalog.models import ContactFormMessage, Category
 from django.core.paginator import Paginator
+from django.views.generic import DetailView
 
 
 def index(request):
@@ -41,11 +42,9 @@ def contact(request):
     return render(request, 'catalog/contact.html', context)
 
 
-def product_info(request):
-    context = {
-        'title': 'Товар'
-    }
-    return render(request, 'catalog/product_info.html', context)
+class ProductDetailView(DetailView):
+    model = Product
+    template_name = 'catalog/product_info.html'
 
 
 def courses(request):

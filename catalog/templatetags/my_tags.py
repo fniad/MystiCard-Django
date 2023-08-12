@@ -8,3 +8,8 @@ register = template.Library()
 @register.simple_tag
 def mediapath(filepath):
     return f"{settings.MEDIA_URL}{filepath}"
+
+
+@register.simple_tag
+def product_detail_link(object):
+    return f'/view/{object.pk}/'

@@ -46,12 +46,12 @@
 
                             {% if object.name_product|length > 35 %}
                             <p class="card-text" style="font-size: 120%; padding-top: 10px; padding-bottom: 5px;">
-                                <a href="{% url 'catalog:product_info' %}" style="color: green;">
+                                <a href="{% product_detail_link object %}" style="color: green;">
                                     {{ object.name_product|slice:":35" }}...</a>
                             </p>
                             {% else %}
                             <p class="card-text" style="font-size: 120%; padding-top: 10px; padding-bottom: 5px;">
-                                <a href="{% url 'catalog:product_info' %}" style="color: green;">
+                                <a href="{% product_detail_link object %}" style="color: green;">
                                     {{ object.name_product }}</a>
                             </p>
                             {% endif %}
