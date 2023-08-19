@@ -1,0 +1,31 @@
+{% extends 'catalog/base.html' %}
+{% load static %}
+
+{% block content %}
+<div class="container" style="padding-top:40px; padding-bottom: 40px;">
+    <div class="text-header mt-4 mb-4">
+        <h1 class="display-4 text-center fw-normal text-body-emphasis mb-4">{{ object.title }}</h1>
+    </div>
+    <hr style="border: 0; height: 1px; background-color: #6c757d;">
+    <div class="container-sm" style="padding-top: 40px; padding-bottom: 80px; width: 45%;
+    white-space: pre-wrap; overflow-wrap: break-word; hyphens: auto;">
+        {{ object.preview_img }}
+        <p>{{ object.body}}</p>
+
+    </div>
+    <div class="row justify-content-end">
+        <div class="col-6 mt-2">
+                <p>Просмотры: {{ object.views_count }}</p>
+        </div>
+        <div class="col-4">
+            <div class="btn-group">
+                <a href="{% url 'blog:edit_article' object.pk %}"
+                   class="btn btn-sm btn-outline-secondary">Редактировать</a>
+                <a href="{% url 'blog:delete_article' object.pk %}"
+                   class="btn btn-sm btn-outline-warning">Удалить</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

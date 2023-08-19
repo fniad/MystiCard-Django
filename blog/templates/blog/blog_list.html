@@ -1,0 +1,53 @@
+{% extends 'catalog/base.html' %}
+{% load static %}
+{% load my_tags %}
+
+{% block content %}
+<div class="container" style="padding-top: 40px;">
+    <h3 class="display-5 text-center fw-normal text-body-emphasis" style="padding-top: 30px;">Статьи</h3>
+    <hr style="border: 0; height: 1px; background-color: #6c757d;">
+    <div class="col-12 mb-5">
+        <a class="btn btn-sm btn-outline-secondary" href="{% url 'blog:create_article' %}">Добавить статью</a>
+    </div>
+    <div class="container" style="padding-top: 50px;">
+        <div class="row mb-3">
+            {% for object in object_list %}
+            <div class="col-4" style="padding-bottom: 20px;">
+                <div class="card shadow-sm" style="height: 600px;">
+                    <svg class="bd-placeholder-img card-img-top" width="100%" height="250px" style="min-height: 250px;"
+                         xmlns="http://www.w3.org/2000/svg" role="img">
+                        <rect width="100%" height="100%" fill="#55595c"/>
+                    </svg>
+                    <div class="card-body" style="height: 250px;">
+                        <div class="position-relative">
+
+                            {% if object.name_product|length > 35 %}
+                            <p class="card-text" style="font-size: 120%; padding-top: 10px; padding-bottom: 5px;">
+                                <a href="{% url 'blog:view_article' object.pk %}" style="color: green;">
+                                    {{ object.title|slice:":35" }}...</a>
+                            </p>
+                            {% else %}
+                            <p class="card-text" style="font-size: 120%; padding-top: 10px; padding-bottom: 5px;">
+                                <a href="{% url 'blog:view_article' object.pk %}" style="color: green;">
+                                    {{ object.title }}</a>
+                            </p>
+                            {% endif %}
+
+                            {% if object.body|length > 500 %}
+                            <p class="card-text"
+                               style="min-height: 120px; max-height: 120px; font-size: 85%;">
+                                {{ object.body|slice:":500" }}...</p>
+                            {% else %}
+                            <p class="card-text"
+                               style="min-height: 120px; max-height: 120px; font-size: 85%;">
+                                {{ object.body|slice:":500" }}</p>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</div>
+{% endblock %}
