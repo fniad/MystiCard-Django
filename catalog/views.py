@@ -1,13 +1,12 @@
 from django.utils import timezone
 
 from django.shortcuts import render
-from django.urls import reverse_lazy, reverse
+from django.urls import reverse_lazy
 from django.core.paginator import Paginator
 from django.views.generic import DetailView, ListView, CreateView, UpdateView, DeleteView
 
 from catalog.models import ContactFormMessage
 from catalog.models import Product
-from pytils.translit import slugify
 
 
 class ProductListView(ListView):
