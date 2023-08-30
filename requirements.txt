@@ -3,3 +3,4 @@ psycopg2-binary
 pillow
 ipython
 pytils
+secure-smtplib

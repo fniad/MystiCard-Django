@@ -1,12 +1,17 @@
+from datetime import datetime
+
 from django.utils import timezone
 
-from django.shortcuts import render
-from django.urls import reverse_lazy
+from django.urls import reverse, reverse_lazy
 from django.core.paginator import Paginator
 from django.views.generic import DetailView, ListView, CreateView, UpdateView, DeleteView
 
-from catalog.models import ContactFormMessage
-from catalog.models import Product
+from catalog.models import ContactFormMessage, Product, Version
+
+from django.forms import inlineformset_factory
+
+from catalog.forms import ProductForm, VersionForm
+from django.shortcuts import render
 
 
 class ProductListView(ListView):
@@ -33,7 +38,7 @@ class ProductDetailView(DetailView):
 
 class ProductCreateView(CreateView):
     model = Product
-    fields = {'name_product', 'description_product', 'preview_img', 'category', 'purchase_price'}
+    form_class = ProductForm
     success_url = reverse_lazy('catalog:list_product')
 
     def form_valid(self, form):
@@ -47,17 +52,43 @@ class ProductCreateView(CreateView):
 
 class ProductUpdateView(UpdateView):
     model = Product
-    fields = {'name_product', 'description_product', 'preview_img', 'category', 'purchase_price'}
-    success_url = reverse_lazy('catalog:list_product')
+    form_class = ProductForm
+
+    def get_success_url(self):
+        return reverse('catalog:edit_product', kwargs={'pk': self.object.pk})
+
+    def get_context_data(self, **kwargs):
+        context_data = super().get_context_data(**kwargs)
+        VersionFormset = inlineformset_factory(Product, Version, form=VersionForm, extra=1)
+        if self.request.method == 'POST':
+            formset = VersionFormset(self.request.POST, instance=self.object)
+        else:
+            formset = VersionFormset(instance=self.object)
+
+        context_data['formset'] = formset
+        return context_data
 
     def form_valid(self, form):
-        if form.is_valid():
+        context_data = self.get_context_data()
+        formset = context_data['formset']
+        self.object = form.save()
+
+        if form.is_valid() and formset.is_valid():
             new_product = form.save(commit=False)
             if new_product.name_product != form.initial['name_product'] or \
                     new_product.purchase_price != form.initial['purchase_price']:
                 new_product.date_last_modified = timezone.now().date()
             new_product.save()
-        return super().form_valid(form)
+
+            formset.instance = self.object
+            formset.save()
+
+            return super().form_valid(form)
+
+        return self.render_to_response(self.get_context_data(form=form, formset=formset))
+
+    def form_invalid(self, form):
+        return self.render_to_response(self.get_context_data(form=form))
 
 
 class ProductDeleteView(DeleteView):

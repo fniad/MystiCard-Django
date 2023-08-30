@@ -1,72 +1,10 @@
 [
   {
-    "model": "catalog.product",
-    "pk": 1,
-    "fields": {
-      "name_product": "Таро Ворон",
-      "description_product": "Основой для Таро Ворон стала классическая система Уэйта. Сюжеты иллюстраций повторяются, а действующими лицами являются черные вороны.",
-      "preview_img": "",
-      "category": 3,
-      "purchase_price": 1827.0,
-      "date_create": "2023-08-06",
-      "date_last_modified": "2023-08-06",
-      "archive": false
-    }
-  },
-  {
-    "model": "catalog.product",
+    "model": "catalog.category",
     "pk": 2,
     "fields": {
-      "name_product": "Таро Убийство Ворон",
-      "description_product": "Таро Убийство Ворон",
-      "preview_img": "",
-      "category": 3,
-      "purchase_price": 2362.0,
-      "date_create": "2023-08-06",
-      "date_last_modified": "2023-08-06",
-      "archive": false
-    }
-  },
-  {
-    "model": "catalog.product",
-    "pk": 3,
-    "fields": {
-      "name_product": "Таро Ведьм",
-      "description_product": "Таро Ведьмы Эллен Дуган расскажут, как сложится ваша личная жизнь, ваша карьера, ваши финансовые вопросы.",
-      "preview_img": "",
-      "category": 3,
-      "purchase_price": 1657.0,
-      "date_create": "2023-08-06",
-      "date_last_modified": "2023-08-06",
-      "archive": false
-    }
-  },
-  {
-    "model": "catalog.product",
-    "pk": 4,
-    "fields": {
-      "name_product": "Таро Безумной Луны",
-      "description_product": "В иллюстрациях использована уникальная технологии дизайна, изобретённая самим автором колоды. Ирреальные яркие образы этого креативного Таро, приглашающие в мир воображения и снов, идеально подходят для работы с подсознанием и решения вопросов психологии.",
-      "preview_img": "",
-      "category": 3,
-      "purchase_price": 1197.0,
-      "date_create": "2023-08-06",
-      "date_last_modified": "2023-08-06",
-      "archive": false
-    }
-  },
-  {
-    "model": "catalog.product",
-    "pk": 5,
-    "fields": {
-      "name_product": "Набор свечей с травами \"На любой случай\" 30шт",
-      "description_product": "Набор свечей из пчелиного воска в травах. 5 цветов, по 6 штук каждого цвета. Исключительная подборка трав для исполнения Ваших желаний.",
-      "preview_img": "",
-      "category": 2,
-      "purchase_price": 351.0,
-      "date_create": "2023-08-06",
-      "date_last_modified": "2023-08-06",
-      "archive": false
+      "name_category": "Ароматерапия",
+      "description_category": "Ароматические масла и лампы"
     }
   },
   {
@@ -79,10 +17,10 @@
   },
   {
     "model": "catalog.category",
-    "pk": 2,
+    "pk": 4,
     "fields": {
-      "name_category": "Ароматерапия",
-      "description_category": "Ароматические масла и лампы"
+      "name_category": "Книги",
+      "description_category": "Книги по изучению карт таро"
     }
   },
   {
@@ -94,11 +32,234 @@
     }
   },
   {
-    "model": "catalog.category",
+    "model": "catalog.product",
+    "pk": 1,
+    "fields": {
+      "name_product": "Таро Ворон",
+      "description_product": "Основой для Таро Ворон стала классическая система Уэйта. Сюжеты иллюстраций повторяются, а действующими лицами являются черные вороны.",
+      "preview_img": "products/taro_raven.jpg",
+      "category": 3,
+      "purchase_price": 1827.0,
+      "date_create": "2023-08-19",
+      "date_last_modified": "2023-08-19",
+      "archive": false
+    }
+  },
+  {
+    "model": "catalog.product",
+    "pk": 3,
+    "fields": {
+      "name_product": "Таро Ведьм",
+      "description_product": "Таро Ведьмы Эллен Дуган расскажут, как сложится ваша личная жизнь, ваша карьера, ваши финансовые вопросы.",
+      "preview_img": "products/taro_witch_ulD1AOI.jpg",
+      "category": 3,
+      "purchase_price": 1657.0,
+      "date_create": "2023-08-19",
+      "date_last_modified": "2023-08-19",
+      "archive": false
+    }
+  },
+  {
+    "model": "catalog.product",
     "pk": 4,
     "fields": {
-      "name_category": "Книги",
-      "description_category": "Книги по изучению карт таро"
+      "name_product": "Таро Безумной Луны",
+      "description_product": "В иллюстрациях использована уникальная технологии дизайна, изобретённая самим автором колоды. Ирреальные яркие образы этого креативного Таро, приглашающие в мир воображения и снов, идеально подходят для работы с подсознанием и решения вопросов психологии.",
+      "preview_img": "products/1taro_moon_XTyCRKX.jpg",
+      "category": 3,
+      "purchase_price": 1197.0,
+      "date_create": "2023-08-19",
+      "date_last_modified": "2023-08-19",
+      "archive": false
+    }
+  },
+  {
+    "model": "catalog.product",
+    "pk": 5,
+    "fields": {
+      "name_product": "Набор свечей с травами \"На любой случай\" 30шт",
+      "description_product": "Набор свечей из пчелиного воска в травах. 5 цветов, по 6 штук каждого цвета. Исключительная подборка трав для исполнения Ваших желаний.",
+      "preview_img": "products/cat-crawford-qbDF0LDGq4w-unsplash_nEiKMFF.jpg",
+      "category": 2,
+      "purchase_price": 351.0,
+      "date_create": "2023-08-19",
+      "date_last_modified": "2023-08-19",
+      "archive": false
+    }
+  },
+  {
+    "model": "catalog.product",
+    "pk": 8,
+    "fields": {
+      "name_product": "Масло эфирное Эвкалипта",
+      "description_product": "Эфирное масло эвкалипта - аромат продуктивного мышления и логики. Способствует восстановлению психоэмоционального равновесия. Ванны с добавлением эвкалиптового масла способствуют восстановлению сил после нервного и физического переутомления.\r\n\r\nЭфирное масло эвкалипта благоприятно воздействует на кожные покровы в качестве успокаивающего средства. Используется для укрепления корней волос, препятствует появлению перхоти. Эфирное масло эвкалипта - великолепный дезодорирующий аромат для сауны и бани.",
+      "preview_img": "products/145.jpg",
+      "category": 2,
+      "purchase_price": 185.6,
+      "date_create": "2023-08-19",
+      "date_last_modified": "2023-08-19",
+      "archive": false
+    }
+  },
+  {
+    "model": "catalog.product",
+    "pk": 9,
+    "fields": {
+      "name_product": "«Таро. Полное руководство по чтению карт и предсказательной практике» - Константин Лаво , Нина Фролова",
+      "description_product": "Подробнейшее руководство по гаданию на картах Таро от Таро-практиков, членов Российского Таро-клуба и преподавателей с многолетним стажем, Нины Фроловой и Константина Лаво. Четкое и систематизированное изложение материала, обилие примеров из практики авторов, а также многочисленные практические задания делают эту книгу универсальным руководством как для начинающих тарологов, так и для опытных практиков, совершенствующих свое мастерство.",
+      "preview_img": "products/taro_cardnew33_0.jpg",
+      "category": 4,
+      "purchase_price": 526.0,
+      "date_create": "2023-08-09",
+      "date_last_modified": "2023-08-09",
+      "archive": false
+    }
+  },
+  {
+    "model": "catalog.product",
+    "pk": 21,
+    "fields": {
+      "name_product": "Карты Таро Ворон Смерти",
+      "description_product": "Ворон - это расхожий символ в традициях и культуре многих народов. Для одних он вестник смерти, проводник между мирами живых и умерших. Другим он преподносит свою мудрость как награду свыше. Третьим символизирует перемены.\r\n\r\nЧерный ворон - неизменный хозяин ночи, стал умелым проводником в колоде таро \"Ворон Смерти\". Он выступает здесь и как судья, и как мудрый советчик, и жнец смерти, и проводник в тайные страсти сердца и потаенные уголки души.\r\n\r\nВ нуарных черно-белых иллюстрациях Коррадо Роя свет чередуется с тьмой, тишина и покой сменяются ужасом и трепетом. Путешествие по колоде \"Ворон Смерти\" не легкий, ответы могут быть бескомпромиссны. Готовы ли вы их услышать?",
+      "preview_img": "products/IMG_9015_M6MOa4x.jpg",
+      "category": 3,
+      "purchase_price": 3450.0,
+      "date_create": "2023-08-19",
+      "date_last_modified": "2023-08-19",
+      "archive": false
+    }
+  },
+  {
+    "model": "catalog.version",
+    "pk": 1,
+    "fields": {
+      "product": 21,
+      "version_number": 1,
+      "version_name": "1.0",
+      "is_current": true
+    }
+  },
+  {
+    "model": "catalog.version",
+    "pk": 2,
+    "fields": {
+      "product": 21,
+      "version_number": 2,
+      "version_name": "Привоз от 7.08",
+      "is_current": false
+    }
+  },
+  {
+    "model": "catalog.version",
+    "pk": 3,
+    "fields": {
+      "product": 21,
+      "version_number": 3,
+      "version_name": "Привоз от 7.09",
+      "is_current": false
+    }
+  },
+  {
+    "model": "catalog.version",
+    "pk": 10,
+    "fields": {
+      "product": 3,
+      "version_number": 1,
+      "version_name": "Привоз от 29.04",
+      "is_current": false
+    }
+  },
+  {
+    "model": "catalog.version",
+    "pk": 11,
+    "fields": {
+      "product": 3,
+      "version_number": 2,
+      "version_name": "Привоз от 7.08",
+      "is_current": true
+    }
+  },
+  {
+    "model": "catalog.version",
+    "pk": 27,
+    "fields": {
+      "product": 1,
+      "version_number": 1,
+      "version_name": "Привоз от 29.04",
+      "is_current": false
+    }
+  },
+  {
+    "model": "catalog.version",
+    "pk": 28,
+    "fields": {
+      "product": 1,
+      "version_number": 2,
+      "version_name": "Привоз от 7.08",
+      "is_current": true
+    }
+  },
+  {
+    "model": "catalog.version",
+    "pk": 29,
+    "fields": {
+      "product": 1,
+      "version_number": 3,
+      "version_name": "Привоз от 7.09",
+      "is_current": false
+    }
+  },
+  {
+    "model": "catalog.version",
+    "pk": 30,
+    "fields": {
+      "product": 1,
+      "version_number": 4,
+      "version_name": "Привоз от 7.11",
+      "is_current": false
+    }
+  },
+  {
+    "model": "catalog.version",
+    "pk": 31,
+    "fields": {
+      "product": 1,
+      "version_number": 5,
+      "version_name": "Привоз 04.04",
+      "is_current": false
+    }
+  },
+  {
+    "model": "catalog.contactformmessage",
+    "pk": 4,
+    "fields": {
+      "name": "Каменецкая Ариадна Петровна",
+      "phone": "89996691554",
+      "email": "artkamproject@gmail.com",
+      "message": "Ghjjkbl",
+      "data_sent": "2023-08-09 19:02:13"
+    }
+  },
+  {
+    "model": "catalog.contactformmessage",
+    "pk": 5,
+    "fields": {
+      "name": "Каменецкая Ариадна Петровна",
+      "phone": "89996691554",
+      "email": "artkamproject@gmail.com",
+      "message": "",
+      "data_sent": "2023-08-09 22:49:56"
+    }
+  },
+  {
+    "model": "catalog.contactformmessage",
+    "pk": 6,
+    "fields": {
+      "name": "Ариадна Петровна Каменецкая",
+      "phone": "89992047615",
+      "email": "artkamproject@gmail.com",
+      "message": "яи",
+      "data_sent": "2023-08-13 20:35:25"
     }
   }
 ]
