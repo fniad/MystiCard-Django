@@ -27,3 +27,4 @@ class VersionAdmin(admin.ModelAdmin):
     search_fields = ('product',)
 
 
+
