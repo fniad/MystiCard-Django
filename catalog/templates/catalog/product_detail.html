@@ -20,12 +20,17 @@
         <p>{{ object.description_product }}</p>
         <h3>Цена: {{ object.purchase_price }} руб.</h3>
         <div class="btn-group" style="grid-row: 3">
-            <button type="button" class="btn btn-sm btn-outline-secondary">Добавить в корзину
-            </button>
+            <button type="button" class="btn btn-sm btn-outline-secondary">Добавить в корзину</button>
         </div>
     </div>
     <div class="row justify-content-end">
         <div class="col-4">
+            {% for version in object.version_set.all %}
+            {% if version.is_current %}
+            <p>Активная версия продукта: {{ version.version_number }}</p>
+            <p>{{ version.version_name }}</p>
+            {% endif %}
+            {% endfor %}
             <div class="btn-group">
                 <a href="{% url 'catalog:edit_product' object.pk %}"
                    class="btn btn-sm btn-outline-secondary">Редактировать</a>
