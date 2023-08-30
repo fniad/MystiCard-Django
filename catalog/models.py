@@ -1,4 +1,5 @@
 from django.db import models
+from django.utils import timezone
 
 NULLABLE = {'blank': True, 'null': True}
 
@@ -20,9 +21,9 @@ class Product(models.Model):
     name_product = models.CharField(max_length=150, verbose_name='продукт')
     description_product = models.TextField(verbose_name='описание')
     preview_img = models.ImageField(upload_to='products/', verbose_name='изображение превью', ** NULLABLE)
-    category = models.ForeignKey(Category, on_delete=models.CASCADE)
+    category = models.ForeignKey(Category, on_delete=models.CASCADE, verbose_name='категория')
     purchase_price = models.FloatField(verbose_name='цена за покупку')
-    date_create = models.DateField(verbose_name='дата создания', default='2023-08-06')
+    date_create = models.DateField(verbose_name='дата создания', default=timezone.now)
     date_last_modified = models.DateField(verbose_name='дата последнего изменения')
 
     archive = models.BooleanField(default=False, verbose_name='архивный')
@@ -36,6 +37,20 @@ class Product(models.Model):
         ordering = ('pk',)
 
 
+class Version(models.Model):
+    product = models.ForeignKey(Product, on_delete=models.CASCADE, verbose_name='продукт', ** NULLABLE)
+    version_number = models.PositiveIntegerField(verbose_name='номер версии')
+    version_name = models.CharField(max_length=100, verbose_name='название версии', ** NULLABLE)
+    is_current = models.BooleanField(verbose_name='признак версии', default=False)
+
+    def __str__(self):
+        return f'{self.product} - Версия {self.version_number}: {self.version_name}'
+
+    class Meta:
+        verbose_name = 'версия'
+        verbose_name_plural = 'версии'
+
+
 class ContactFormMessage(models.Model):
     name = models.CharField(max_length=100, verbose_name='имя')
     phone = models.CharField(max_length=20, verbose_name='телефон')
@@ -44,7 +59,7 @@ class ContactFormMessage(models.Model):
     data_sent = models.CharField(max_length=30, verbose_name='дата сообщения')
 
     def __str__(self):
-        return f'You have new message from {self.name}({self.phone} {self.email}): {self.message}'
+        return f'У вас сообщение от {self.name}({self.phone} {self.email}): {self.message}'
 
     class Meta:
         verbose_name = 'сообщение с контактной формы'

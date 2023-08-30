@@ -1,5 +1,5 @@
 from django.contrib import admin
-from catalog.models import Product, Category, ContactFormMessage
+from catalog.models import Product, Category, ContactFormMessage, Version
 
 
 @admin.register(Product)
@@ -20,5 +20,10 @@ class ContactFormMessageAdmin(admin.ModelAdmin):
     list_display = ('name', 'phone', 'email', 'message', 'data_sent')
     search_fields = ('name', 'phone', 'email',)
 
+
+@admin.register(Version)
+class VersionAdmin(admin.ModelAdmin):
+    list_display = ('pk', 'product', 'version_number',)
+    search_fields = ('product',)
 
 

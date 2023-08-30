@@ -1,25 +1,99 @@
-from django.shortcuts import render
-from catalog.models import Product
 from datetime import datetime
-from catalog.models import ContactFormMessage, Category
+
+from django.utils import timezone
+
+from django.urls import reverse, reverse_lazy
 from django.core.paginator import Paginator
-from django.views.generic import DetailView
+from django.views.generic import DetailView, ListView, CreateView, UpdateView, DeleteView
+
+from catalog.models import ContactFormMessage, Product, Version
+
+from django.forms import inlineformset_factory
+
+from catalog.forms import ProductForm, VersionForm
+from django.shortcuts import render
 
 
-def index(request):
+class ProductListView(ListView):
+    model = Product
+    template_name = 'catalog/index.html'
 
-    products_list = Product.objects.all()
-    paginator = Paginator(products_list, 6)  # Показывать 10 элементов на странице
-    page_number = request.GET.get('page')
-    page_obj = paginator.get_page(page_number)
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
 
-    context = {
-        'object_list': products_list,
-        'title': 'Главная',
-        'page_obj': page_obj
-    }
+        products_list = Product.objects.all()
+        paginator = Paginator(products_list, 6)     # Показывать 6 элементов на странице
 
-    return render(request, 'catalog/index.html', context)
+        page_number = self.request.GET.get('page')
+        page_obj = paginator.get_page(page_number)
+
+        context['page_obj'] = page_obj
+
+        return context
+
+
+class ProductDetailView(DetailView):
+    model = Product
+
+
+class ProductCreateView(CreateView):
+    model = Product
+    form_class = ProductForm
+    success_url = reverse_lazy('catalog:list_product')
+
+    def form_valid(self, form):
+        if form.is_valid():
+            new_product = form.save(commit=False)
+            new_product.date_create = timezone.now().date()
+            new_product.date_last_modified = timezone.now().date()
+            new_product.save()
+        return super().form_valid(form)
+
+
+class ProductUpdateView(UpdateView):
+    model = Product
+    form_class = ProductForm
+
+    def get_success_url(self):
+        return reverse('catalog:edit_product', kwargs={'pk': self.object.pk})
+
+    def get_context_data(self, **kwargs):
+        context_data = super().get_context_data(**kwargs)
+        VersionFormset = inlineformset_factory(Product, Version, form=VersionForm, extra=1)
+        if self.request.method == 'POST':
+            formset = VersionFormset(self.request.POST, instance=self.object)
+        else:
+            formset = VersionFormset(instance=self.object)
+
+        context_data['formset'] = formset
+        return context_data
+
+    def form_valid(self, form):
+        context_data = self.get_context_data()
+        formset = context_data['formset']
+        self.object = form.save()
+
+        if form.is_valid() and formset.is_valid():
+            new_product = form.save(commit=False)
+            if new_product.name_product != form.initial['name_product'] or \
+                    new_product.purchase_price != form.initial['purchase_price']:
+                new_product.date_last_modified = timezone.now().date()
+            new_product.save()
+
+            formset.instance = self.object
+            formset.save()
+
+            return super().form_valid(form)
+
+        return self.render_to_response(self.get_context_data(form=form, formset=formset))
+
+    def form_invalid(self, form):
+        return self.render_to_response(self.get_context_data(form=form))
+
+
+class ProductDeleteView(DeleteView):
+    model = Product
+    success_url = reverse_lazy('catalog:list_product')
 
 
 def contact(request):
@@ -29,7 +103,6 @@ def contact(request):
         email = request.POST.get('email')
         message = request.POST.get('message')
         data_sent = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
-        print(f'You have new message in from {name}({phone} {email}): {message}')
 
         # Создание объекта ContactFormMessage и сохранение в базе данных
         contact_message = ContactFormMessage(name=name, phone=phone, email=email, message=message, data_sent=data_sent)
@@ -42,50 +115,8 @@ def contact(request):
     return render(request, 'catalog/contact.html', context)
 
 
-class ProductDetailView(DetailView):
-    model = Product
-    template_name = 'catalog/product_info.html'
-
-
 def courses(request):
     context = {
         'title': 'Курсы'
     }
     return render(request, 'catalog/courses.html', context)
-
-
-def add_product(request):
-    if request.method == 'POST':
-        name_product = request.POST.get('name_product')
-        description_product = request.POST.get('description_product')
-        preview_img = 'null'
-        category_pk = request.POST.get('category')  # Идентификатор категории
-        purchase_price = request.POST.get('purchase_price')
-        date_create = datetime.now().strftime('%Y-%m-%d')
-        date_last_modified = date_create
-        archive = False
-
-        category = Category.objects.get(pk=category_pk)  # Получить объект категории по идентификатору
-
-        # Создание объекта Product и сохранение в базе данных
-        add_new_product = Product(
-            name_product=name_product,
-            description_product=description_product,
-            preview_img=preview_img,
-            category=category,
-            purchase_price=purchase_price,
-            date_create=date_create,
-            date_last_modified=date_last_modified,
-            archive=archive
-        )
-        add_new_product.save()
-
-    categories = Category.objects.all()
-
-    context = {
-        'title': 'Добавить продукт',
-        'categories': categories
-    }
-
-    return render(request, 'catalog/add_product.html', context)
-
