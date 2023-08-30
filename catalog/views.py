@@ -41,13 +41,36 @@ class ProductCreateView(CreateView):
     form_class = ProductForm
     success_url = reverse_lazy('catalog:list_product')
 
+    def get_success_url(self):
+        return reverse('catalog:edit_product', kwargs={'pk': self.object.pk})
+
+    def get_context_data(self, **kwargs):
+        context_data = super().get_context_data(**kwargs)
+        VersionFormset = inlineformset_factory(Product, Version, form=VersionForm, extra=1)
+        if self.request.method == 'POST':
+            formset = VersionFormset(self.request.POST)
+        else:
+            formset = VersionFormset()
+
+        context_data['formset'] = formset
+        return context_data
+
     def form_valid(self, form):
-        if form.is_valid():
-            new_product = form.save(commit=False)
-            new_product.date_create = timezone.now().date()
-            new_product.date_last_modified = timezone.now().date()
-            new_product.save()
-        return super().form_valid(form)
+        context_data = self.get_context_data()
+        formset = context_data['formset']
+
+        if form.is_valid() and formset.is_valid():
+            self.object = form.save(commit=False)
+            self.object.date_create = timezone.now().date()
+            self.object.date_last_modified = timezone.now().date()
+
+            formset.instance = self.object
+            self.object.save()
+            formset.save()
+
+            return super().form_valid(form)
+
+        return self.render_to_response(self.get_context_data(form=form, formset=formset))
 
 
 class ProductUpdateView(UpdateView):
