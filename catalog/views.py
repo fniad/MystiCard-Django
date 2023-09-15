@@ -1,28 +1,31 @@
 from datetime import datetime
 
-from django.utils import timezone
-
-from django.urls import reverse, reverse_lazy
 from django.core.paginator import Paginator
+from django.forms import inlineformset_factory
+from django.shortcuts import render
+from django.urls import reverse, reverse_lazy
+from django.utils import timezone
 from django.views.generic import DetailView, ListView, CreateView, UpdateView, DeleteView
 
-from catalog.models import ContactFormMessage, Product, Version
-
-from django.forms import inlineformset_factory
-
 from catalog.forms import ProductForm, VersionForm
-from django.shortcuts import render
+from catalog.models import ContactFormMessage, Product, Version
 
 
 class ProductListView(ListView):
     model = Product
     template_name = 'catalog/index.html'
+    paginate_by = 6
+
+    def get_queryset(self):
+        if not self.request.user.is_authenticated:
+            return Product.objects.none()
+        queryset = super().get_queryset().filter(owner=self.request.user)
+        return queryset
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
 
-        products_list = Product.objects.all()
-        paginator = Paginator(products_list, 6)     # Показывать 6 элементов на странице
+        paginator = Paginator(self.object_list, self.paginate_by)
 
         page_number = self.request.GET.get('page')
         page_obj = paginator.get_page(page_number)
@@ -63,6 +66,7 @@ class ProductCreateView(CreateView):
             self.object = form.save(commit=False)
             self.object.date_create = timezone.now().date()
             self.object.date_last_modified = timezone.now().date()
+            self.object.owner = self.request.user
 
             formset.instance = self.object
             self.object.save()

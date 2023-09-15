@@ -1,9 +1,11 @@
 {% load static %}
 {% load my_tags %}
 
+{% if user.is_authenticated %}
 <div class="col-6 mb-1">
     <a class="btn btn-sm btn-outline-secondary" href="{% url 'catalog:create_product' %}">Добавить товар</a>
 </div>
+
 <h3 class="display-5 text-center fw-normal text-body-emphasis" style="padding-top: 30px;">Товары</h3>
 <div class="container" style="padding-top: 50px;">
     <div class="row mb-3">
@@ -69,3 +71,10 @@
         </div>
     </div>
 </div>
+{% else %}
+<div class="row text-center" style="padding-top: 30px;">
+    <p>Войдите, чтобы увидеть товары.</p>
+    <a href="{% url 'users:login' %}">Перейти ко входу.</a>
+</div>
+
+{% endif %}
