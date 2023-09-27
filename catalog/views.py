@@ -1,8 +1,10 @@
 from datetime import datetime
 
+from django.contrib.auth.decorators import login_required
+from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
 from django.core.paginator import Paginator
 from django.forms import inlineformset_factory
-from django.shortcuts import render
+from django.shortcuts import render, get_object_or_404, redirect
 from django.urls import reverse, reverse_lazy
 from django.utils import timezone
 from django.views.generic import DetailView, ListView, CreateView, UpdateView, DeleteView
@@ -13,25 +15,17 @@ from catalog.models import ContactFormMessage, Product, Version
 
 class ProductListView(ListView):
     model = Product
-    template_name = 'catalog/index.html'
     paginate_by = 6
+    template_name = 'catalog/index.html'
 
-    def get_queryset(self):
-        if not self.request.user.is_authenticated:
-            return Product.objects.none()
-        queryset = super().get_queryset().filter(owner=self.request.user)
-        return queryset
+    # def get_queryset(self):
+    #     queryset = super().get_queryset()
+    #     if not self.request.user.is_staff:
+    #         queryset = super().get_queryset().filter(owner=self.request.user)
+    #     return queryset
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-
-        paginator = Paginator(self.object_list, self.paginate_by)
-
-        page_number = self.request.GET.get('page')
-        page_obj = paginator.get_page(page_number)
-
-        context['page_obj'] = page_obj
-
         return context
 
 
@@ -39,9 +33,10 @@ class ProductDetailView(DetailView):
     model = Product
 
 
-class ProductCreateView(CreateView):
+class ProductCreateView(LoginRequiredMixin, PermissionRequiredMixin, CreateView):
     model = Product
     form_class = ProductForm
+    permission_required = 'catalog.add_product'
     success_url = reverse_lazy('catalog:list_product')
 
     def get_success_url(self):
@@ -77,9 +72,10 @@ class ProductCreateView(CreateView):
         return self.render_to_response(self.get_context_data(form=form, formset=formset))
 
 
-class ProductUpdateView(UpdateView):
+class ProductUpdateView(LoginRequiredMixin, PermissionRequiredMixin, UpdateView):
     model = Product
     form_class = ProductForm
+    permission_required = 'catalog.change_product'
 
     def get_success_url(self):
         return reverse('catalog:edit_product', kwargs={'pk': self.object.pk})
@@ -118,9 +114,10 @@ class ProductUpdateView(UpdateView):
         return self.render_to_response(self.get_context_data(form=form))
 
 
-class ProductDeleteView(DeleteView):
+class ProductDeleteView(LoginRequiredMixin, PermissionRequiredMixin, DeleteView):
     model = Product
     success_url = reverse_lazy('catalog:list_product')
+    permission_required = 'catalog.delete_product'
 
 
 def contact(request):
@@ -147,3 +144,15 @@ def courses(request):
         'title': 'Курсы'
     }
     return render(request, 'catalog/courses.html', context)
+
+@login_required
+def toggle_publish(request, pk):
+    product = get_object_or_404(Product, pk=pk)
+    form = ProductForm(request.POST or None, instance=product)  # Используйте вашу форму, связанную с моделью Product
+    if form.is_valid():
+        product = form.save(commit=False)
+        product.is_published = not product.is_published
+        product.date_published = timezone.now()
+        product.save()
+        return redirect('catalog:list_product')
+    return redirect('catalog:view_product', pk=pk)

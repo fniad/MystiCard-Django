@@ -14,7 +14,7 @@
             {{ form.as_p }}
             <p>Хотите удалить продукт {{ object.name_product }}?</p>
             <button type="submit" class="btn btn-danger">Подтвердить</button>
-            <a href="{% url 'blog:list_article' %}" class="btn btn-warning">Отмена</a>
+            <a href="{% url 'blog:list_articles' %}" class="btn btn-warning">Отмена</a>
         </form>
     </div>
     </div>

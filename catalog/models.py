@@ -26,7 +26,8 @@ class Product(models.Model):
     purchase_price = models.FloatField(verbose_name='цена за покупку')
     date_create = models.DateField(verbose_name='дата создания', default=timezone.now)
     date_last_modified = models.DateField(verbose_name='дата последнего изменения')
-
+    date_published = models.DateField(verbose_name='дата публикации', default=None, **NULLABLE)
+    is_published = models.BooleanField(default=False, verbose_name='опубликован')
     owner = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.SET_NULL, ** NULLABLE, verbose_name='владелец')
 
     archive = models.BooleanField(default=False, verbose_name='архивный')
