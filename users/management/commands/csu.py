@@ -4,6 +4,7 @@ from users.models import User
 
 
 class Command(BaseCommand):
+    help = 'Создаём суперпользователя (админа)'
 
     def handle(self, *args, **options):
         user = User.objects.create(
@@ -16,3 +17,5 @@ class Command(BaseCommand):
 
         user.set_password('123qwerty')
         user.save()
+
+        self.stdout.write(self.style.SUCCESS('Суперпользователь успешно добавлен.'))

@@ -43,7 +43,7 @@ class Command(BaseCommand):
 
         #
         moderators.permissions.set(
-            [change_product, view_product, change_version, view_version, change_category, view_category]
+            [change_product, view_product, view_version, change_category, view_category]
         )
         bloggers.permissions.set(
             [change_blog, add_blog, delete_blog, view_blog]
