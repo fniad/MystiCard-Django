@@ -5,7 +5,7 @@
 <div class="container" style="padding-top:40px; padding-bottom: 40px;">
     <form method="post" enctype="multipart/form-data">
         <div class="row">
-            <div class="col-6">
+            <div class="col">
                 <div class="pricing-header mt-4 mb-4">
                     {% if object %}
                     <h1 class="display-6 text-center fw-normal text-body-emphasis mb-4">Редактировать продукт</h1>
@@ -26,6 +26,7 @@
                     </button>
                 </div>
             </div>
+            {% if perms.catalog.change_version %}
             <div class="col-6">
                 <div class="pricing-header mt-4 mb-4">
                     {% if object %}
@@ -48,9 +49,9 @@
                         Создать
                         {% endif %}
                     </button>
-
                 </div>
             </div>
+            {% endif %}
         </div>
     </form>
 </div>

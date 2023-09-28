@@ -14,6 +14,10 @@ class ProductForm(StyleFormMixin, forms.ModelForm):
         model = Product
         exclude = ('archive', 'date_create', 'date_last_modified', )
 
+        widgets = {
+            'is_published': forms.Select(choices=((True, 'Опубликован'), (False, 'Не опубликован'))),
+        }
+
     def clean_name_product(self):
         cleaned_data = self.cleaned_data.get('name_product')
         restricted_words = ['казино', 'криптовалюта', 'крипта', 'биржа', 'дешево', 'бесплатно', 'обман',
