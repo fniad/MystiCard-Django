@@ -1,0 +1,33 @@
+{% load static %}
+{% load my_filters %}
+<nav class="navbar navbar-expand-md sticky-top border-bottom" style="background-color: #fff;">
+    <div class="container">
+        <div class="offcanvas offcanvas-end" tabindex="-1" id="#offcanvas" aria-labelledby="#offcanvasLabel">
+            <div class="offcanvas-body">
+                <ul class="navbar-nav flex-row d-flex align-items-center justify-content-between">
+                    <li class="text" style="padding-right: 50px;">
+                        <div class="d-flex align-items-center m-1">
+                            <img style="padding-right: 8px;"
+                                 src="{{ 'Mystic.png'|mediapath }}">
+                            <h1><a href="{% url 'catalog:list_product' %}" style="text-decoration: none; color: black;">MystiCard</a></h1>
+                        </div>
+                    </li>
+                    <li class="nav-item"><a class="nav-link" href="{% url 'catalog:categories' %}">Каталог</a></li>
+                    <li class="nav-item"><a class="nav-link" href="{% url 'catalog:list_product' %}">Все товары</a></li>
+                    <li class="nav-item"><a class="nav-link" href="{% url 'catalog:courses' %}">Курсы</a></li>
+                    <li class="nav-item"><a class="nav-link" href="{% url 'blog:list_articles' %}">Статьи</a></li>
+                    <li class="nav-item"><a class="nav-link" href="{% url 'catalog:contact' %}">Контакты</a></li>
+                    <li class="nav-item"><a class="nav-link disabled" aria-disabled="true">Корзина</a></li>
+                    <li class="nav-item"><a class="nav-link disabled" aria-disabled="true">Заказы</a></li>
+                    {% if user.is_authenticated %}
+                        <li class="nav-item"><a class="nav-link" href="{% url 'users:logout' %}">Выйти</a></li>
+                        <li class="nav-item"><a class="nav-link" href="{% url 'users:profile' %}">Профиль</a></li>
+                    {% else %}
+                        <li class="nav-item"><a class="nav-link" href="{% url 'users:login' %}">Войти</a></li>
+                        <li class="nav-item"><a class="nav-link" href="{% url 'users:register' %}">Регистрация</a></li>
+                    {% endif %}
+                </ul>
+            </div>
+        </div>
+    </div>
+</nav>

@@ -1,0 +1,67 @@
+{% extends 'catalog/base.html' %}
+{% load static %}
+{% load my_tags %}
+
+{% block content %}
+<div class="container" style="padding-top:40px; padding-bottom: 40px;">
+    <div class="pricing-header mt-4 mb-4">
+        <h1 class="display-5 text-center fw-normal text-body-emphasis">{{ object.name_product }}</h1>
+    </div>
+    <hr style="border: 0; height: 1px; background-color: #6c757d;">
+    <div class="row" style="padding-top:35px; width: 100%; overflow-wrap: break-word; hyphens: auto;
+    display: flex; align-items: start; justify-content: center;">
+        <div class="col-6">
+            <div class="container" style="display: flex; align-items: center; justify-content: center;">
+                <img src="{% mediapath object.preview_img %}" class="img-fluid"
+                     style=" width: 300px; height: 400px; object-fit: cover;">
+            </div>
+            <div class="row justify-content-end" style="padding-bottom:50px; padding-top: 50px;">
+                <div class="col-8">
+                    <h4>Цена: {{ object.purchase_price }} руб.</h4>
+                    <button type="button" class="btn btn btn-success mt-3">Добавить в корзину</button>
+                </div>
+            </div>
+        </div>
+        <div class="col-6" style="white-space: pre-line;">
+            <p>{{ object.category }}</p>
+            <h4>Описание:</h4>
+            <p>{{ object.description_product }}</p>
+        </div>
+    </div>
+    {% if perms.catalog.change_product or perms.catalog.delete_product %}
+    {% if product.owner == user or user.is_staff %}
+    <div class="row justify-content-end">
+        <div class="col-4">
+            {% for version in object.version_set.all %}
+            {% if version.is_current %}
+            <p>Активная версия продукта: {{ version.version_number }}</p>
+            <p>{{ version.version_name }}</p>
+            {% endif %}
+            {% endfor %}
+
+            <div class="btn-group">
+                {% if perms.catalog.change_product %}
+                <a href="{% url 'catalog:edit_product' object.pk %}"
+                   class="btn btn-sm btn-outline-secondary">Редактировать</a>
+                {% endif %}
+                {% if perms.catalog.delete_product %}
+                <a href="{% url 'catalog:delete_product' object.pk %}"
+                   class="btn btn-sm btn-outline-danger">Удалить</a>
+                {% endif %}
+            </div>
+            <a href="{% url 'catalog:toggle_publish' object.pk %}"
+                   class="btn btn-sm btn-link" style="color: #FE4B09;">
+                    {% if object.is_published %}
+                    Снять с публикации
+                    {% else %}
+                    Опубликовать
+                    {% endif %}
+                </a>
+        </div>
+    </div>
+    {% endif %}
+    {% endif %}
+</div>
+<div class="pricing-header mt-4 mb-4">
+</div>
+{% endblock %}

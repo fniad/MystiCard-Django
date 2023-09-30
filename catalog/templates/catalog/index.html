@@ -1,138 +1,32 @@
-<!doctype html>
-<html lang="ru">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport"
-          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Главная страница</title>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css">
+{% extends 'catalog/base.html' %}
+{% load static %}
+{% load my_tags %}
 
-</head>
-<body>
-    <nav class="navbar navbar-expand-md sticky-top border-bottom" style="background-color: #fff;">
-      <div class="container">
-        <div class="offcanvas offcanvas-end" tabindex="-1" id="#offcanvas" aria-labelledby="#offcanvasLabel">
-          <div class="offcanvas-body">
-            <ul class="navbar-nav flex-row d-flex align-items-center justify-content-between">
-              <li class="text" style="padding-right: 50px;">
-                  <div class="d-flex align-items-center m-1">
-                      <img style="padding-right: 8px;" src="data:image/png;base64,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">
-                      <h1>MystiCard</h1>
-                  </div>
-              </li>
-              <li class="nav-item"><a class="nav-link" href="/">Каталог</a></li>
-              <li class="nav-item"><a class="nav-link disabled" aria-disabled="true">Курсы</a></li>
-              <li class="nav-item"><a class="nav-link disabled" aria-disabled="true">Статьи</a></li>
-              <li class="nav-item"><a class="nav-link" href="/contact/">Контакты</a></li>
-              <li class="nav-item"><a class="nav-link disabled" aria-disabled="true">Корзина</a></li>
-              <li class="nav-item"><a class="nav-link disabled" aria-disabled="true">Заказы</a></li>
-            </ul>
-          </div>
-        </div>
-      </div>
-    </nav>
-    <div class="container border-bottom" style="width: 100%; height: 450px; overflow: hidden; padding-top: 50px; padding-bottom: 70px;">
-      <img src="https://images.unsplash.com/photo-1568821137008-6a947a8decfc?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1170&q=80" class="img-fluid" style="width: 100%; height: 100%; object-fit: cover;">
+{% block content %}
+
+<div class="container border-bottom"
+     style="width: 100%; height: 450px; overflow: hidden; padding-top: 50px; padding-bottom: 70px;">
+    <img src="{% mediapath 'catalog_wellcome.jpg' %}" class="img-fluid"
+         style="width: 100%; height: 100%; object-fit: cover;">
+</div>
+
+<div class="container" style="padding-top: 40px;">
+    <h1 class="display-4 text-center fw-normal text-body-emphasis" style="padding-bottom: 30px;">Добро пожаловать!</h1>
+    <div class="row" style="padding-bottom: 30px;">
+        <p>Добро пожаловать на наш проект по обучению интерпретации карт Таро! Мы создали этот проект, чтобы помочь
+            людям получить знания и навыки, необходимые для чтения карт Таро.
+            Мы предлагаем онлайн-курсы, которые охватывают все аспекты работы с картами: от базовых элементов колоды до
+            расширенных методов прогнозирования. Вы сможете глубоко изучить символику каждой карты, научиться делать
+            расклады и читать карты в различных контекстах.</p>
+        <p>Карты Таро могут использоваться для самопознания, медитации, принятия решений, прогнозирования будущего и
+            многих других целей. Каждая карта содержит определенные архетипические символы и иллюстрации, которые можно
+            интерпретировать в соответствии с контекстом расклада и толкованием таролога. И мы готовы рассказать вам о
+            них больше. Помочь получить большую ясность и понимание себя и мира вокруг.</p>
+        <p>На текущий момент на сайте доступны несколько тарифов, которые предоставляют разный доступ по уровню к
+            различным статьям.</p>
     </div>
-    <div class="container" style="padding-top: 40px;">
-        <h1 class="display-4 text-center fw-normal text-body-emphasis" style="padding-bottom: 30px;">Добро пожаловать!</h1>
-        <div class="row" style="padding-bottom: 30px;">
-            <p>Добро пожаловать на наш проект по обучению интерпретации карт Таро! Мы создали этот проект, чтобы помочь людям получить знания и навыки, необходимые для чтения карт Таро.
-                Мы предлагаем онлайн-курсы, которые охватывают все аспекты работы с картами: от базовых элементов колоды до расширенных методов прогнозирования. Вы сможете глубоко изучить символику каждой карты, научиться делать расклады и читать карты в различных контекстах.</p>
-            <p>Карты Таро могут использоваться для самопознания, медитации, принятия решений, прогнозирования будущего и многих других целей. Каждая карта содержит определенные архетипические символы и иллюстрации, которые можно интерпретировать в соответствии с контекстом расклада и толкованием таролога. И мы готовы рассказать вам о них больше. Помочь получить большую ясность и понимание себя и мира вокруг.</p>
-            <p>На текущий момент на сайте доступны несколько тарифов, которые предоставляют разный доступ по уровню к различным статьям.</p>
-        </div>
-        <hr style="border: 0; height: 1px; background-color: #6c757d;">
-        <div class="container" style="padding-top:40px; padding-bottom: 40px;">
-            <h3 class="display-5 text-center fw-normal text-body-emphasis">Текущие тарифы:</h3>
-            <div class="row row-cols-1 row-cols-md-3 mb-3 text-center" style="padding-top: 50px;">
-              <div class="col">
-                <div class="card mb-4 rounded-3 shadow-sm">
-                  <div class="card-header py-3">
-                    <h4 class="my-0 fw-normal">Бесплатно</h4>
-                  </div>
-                  <div class="card-body">
-                    <h1 class="card-title pricing-card-title">0 руб<small class="text-body-secondary fw-light">/mесяц</small></h1>
-                    <ul class="list-unstyled mt-3 mb-4">
-                      <li>• статьи с общим значением арканов</li>
-                      <li>• простые раскладов</li>
-                      <li>• возможность задать вопрос</li>
-                      <li>• скидка на покупку карт первые 5 дней</li>
-                    </ul>
-                    <button type="button" class="w-100 btn btn-lg btn-outline-success">Узнать сигнификатор</button>
-                  </div>
-                </div>
-              </div>
-              <div class="col">
-                <div class="card mb-4 rounded-3 shadow-sm">
-                  <div class="card-header py-3">
-                    <h4 class="my-0 fw-normal">Любитель</h4>
-                  </div>
-                  <div class="card-body">
-                    <h1 class="card-title pricing-card-title">450 руб<small class="text-body-secondary fw-light">/месяц</small></h1>
-                    <ul class="list-unstyled mt-3 mb-4">
-                      <li>• статьи о сочетании карт</li>
-                      <li>• сложные расклады</li>
-                      <li>• небольшой расклад раз в месяц от наставницы</li>
-                      <li>• доступ на общий форум</li>
-                    </ul>
-                    <button type="button" class="w-100 btn btn-lg btn-success">Разложить расклад</button>
-                  </div>
-                </div>
-              </div>
-              <div class="col">
-                <div class="card mb-4 rounded-3 shadow-sm border-success">
-                  <div class="card-header py-3 text-bg-success border-success">
-                    <h4 class="my-0 fw-normal">Знаток</h4>
-                  </div>
-                  <div class="card-body">
-                    <h1 class="card-title pricing-card-title">700 руб<small class="text-body-secondary fw-light">/месяц</small></h1>
-                    <ul class="list-unstyled mt-3 mb-4">
-                      <li>• доступ к видео-разборам</li>
-                      <li>• разбор определённых случаев</li>
-                      <li>• ускоренные ответы на вопросы</li>
-                      <li>• все остальные бонусы для прочих тарифов</li>
-                    </ul>
-                    <button type="button" class="w-100 btn btn-lg btn-success">Обратиться к наставнице</button>
-                  </div>
-                </div>
-              </div>
-            </div>
-        </div>
-    </div>
-    <footer class="pt-4 my-md-5 pt-md-5 border-top">
-        <div class="row">
-          <div class="col-12 col-md text-center">
-            <small class="d-block mb-3 text-body-secondary">© 2023</small>
-          </div>
-          <div class="col-6 col-md">
-            <h5>Полезное</h5>
-            <ul class="list-unstyled text-small">
-              <li class="mb-1"><a class="link-secondary text-decoration-none" href="#">Курсы для начинающих</a></li>
-              <li class="mb-1"><a class="link-secondary text-decoration-none" href="#">Курсы для продолжающих</a></li>
-              <li class="mb-1"><a class="link-secondary text-decoration-none" href="#">Задать свой вопрос</a></li>
-              <li class="mb-1"><a class="link-secondary text-decoration-none" href="#">Что нового?</a></li>
-            </ul>
-          </div>
-          <div class="col-6 col-md">
-            <h5>Ресурсы</h5>
-            <ul class="list-unstyled text-small">
-              <li class="mb-1"><a class="link-secondary text-decoration-none" href="#">Статьи</a></li>
-              <li class="mb-1"><a class="link-secondary text-decoration-none" href="#">Форум</a></li>
-              <li class="mb-1"><a class="link-secondary text-decoration-none" href="#">Видео-разборы</a></li>
-              <li class="mb-1"><a class="link-secondary text-decoration-none" href="#">Магазин таро</a></li>
-            </ul>
-          </div>
-          <div class="col-6 col-md">
-            <h5>О нас</h5>
-            <ul class="list-unstyled text-small">
-              <li class="mb-1"><a class="link-secondary text-decoration-none" href="#">Команда</a></li>
-              <li class="mb-1"><a class="link-secondary text-decoration-none" href="#">Местонахождение</a></li>
-              <li class="mb-1"><a class="link-secondary text-decoration-none" href="/contact/">Контакты</a></li>
-            </ul>
-          </div>
-        </div>
-  </footer>
-</body>
-</html>
+
+    {% include 'catalog/categories.html' %}
+
+</div>
+{% endblock %}

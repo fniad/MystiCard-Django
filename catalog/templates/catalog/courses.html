@@ -1,0 +1,68 @@
+{% extends 'catalog/base.html' %}
+{% load static %}
+
+{% block content %}
+<div class="container" style="padding-top:40px; padding-bottom: 40px;">
+    <h3 class="display-5 text-center fw-normal text-body-emphasis" style="padding-bottom: 10px;">Текущие тарифы</h3>
+    <hr style="border: 0; height: 1px; background-color: #6c757d;">
+    <div class="row row-cols-1 row-cols-md-3 mb-3 text-center" style="padding-top: 70px;">
+        <div class="col">
+            <div class="card mb-4 rounded-3 shadow-sm">
+                <div class="card-header py-3">
+                    <h4 class="my-0 fw-normal">Бесплатно</h4>
+                </div>
+                <div class="card-body">
+                    <h1 class="card-title pricing-card-title">0 руб<small
+                            class="text-body-secondary fw-light">/месяц</small>
+                    </h1>
+                    <ul class="list-unstyled mt-3 mb-4">
+                        <li>• статьи с общим значением арканов</li>
+                        <li>• простые раскладов</li>
+                        <li>• возможность задать вопрос</li>
+                        <li>• скидка на покупку карт первые 5 дней</li>
+                    </ul>
+                    <button type="button" class="w-100 btn btn-lg btn-outline-success">Узнать сигнификатор</button>
+                </div>
+            </div>
+        </div>
+        <div class="col">
+            <div class="card mb-4 rounded-3 shadow-sm">
+                <div class="card-header py-3">
+                    <h4 class="my-0 fw-normal">Любитель</h4>
+                </div>
+                <div class="card-body">
+                    <h1 class="card-title pricing-card-title">450 руб<small
+                            class="text-body-secondary fw-light">/месяц</small>
+                    </h1>
+                    <ul class="list-unstyled mt-3 mb-4">
+                        <li>• статьи о сочетании карт</li>
+                        <li>• сложные расклады</li>
+                        <li>• небольшой расклад раз в месяц от наставницы</li>
+                        <li>• доступ на общий форум</li>
+                    </ul>
+                    <button type="button" class="w-100 btn btn-lg btn-success">Разложить расклад</button>
+                </div>
+            </div>
+        </div>
+        <div class="col">
+            <div class="card mb-4 rounded-3 shadow-sm border-success">
+                <div class="card-header py-3 text-bg-success border-success">
+                    <h4 class="my-0 fw-normal">Знаток</h4>
+                </div>
+                <div class="card-body">
+                    <h1 class="card-title pricing-card-title">700 руб<small
+                            class="text-body-secondary fw-light">/месяц</small>
+                    </h1>
+                    <ul class="list-unstyled mt-3 mb-4">
+                        <li>• доступ к видео-разборам</li>
+                        <li>• разбор определённых случаев</li>
+                        <li>• ускоренные ответы на вопросы</li>
+                        <li>• все остальные бонусы для прочих тарифов</li>
+                    </ul>
+                    <button type="button" class="w-100 btn btn-lg btn-success">Обратиться к наставнице</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
