@@ -11,7 +11,7 @@ from django.contrib.auth.models import Group
 from users.forms import UserRegisterForm, UserProfileForm, UserAuthenticationForm, ResetPasswordForm
 
 from users.models import User
-from users.services import send_new_password, send_reset_password, generate_vrf_token, send_hello_and_confirm_url
+from users.services import send_password, generate_vrf_token, send_hello_and_confirm_url
 
 
 class UserLoginView(LoginView):
@@ -79,7 +79,7 @@ def generate_new_password(request):
     request.user.set_password(new_password)
     request.user.save()
 
-    send_new_password(request.user.email, new_password)
+    send_password(request.user.email, new_password)
 
     return redirect(reverse('catalog:list_product'))
 
@@ -95,7 +95,7 @@ def reset_password(request):
             user.set_password(new_password)
             user.save()
 
-            send_reset_password(new_password, user_email)
+            send_password(new_password, user_email)
 
             return redirect(reverse("users:login"))
         except User.DoesNotExist:
