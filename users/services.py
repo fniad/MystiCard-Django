@@ -23,19 +23,10 @@ def send_hello_and_confirm_url(confirm_url, email):
     )
 
 
-def send_new_password(email, new_password):
+def send_password(email, new_password):
     send_mail(
-        subject='Вы сменили пароль',
+        subject='Вы сменили пароль на сайте MailMagic',
         message=f'Ваш новый пароль: {new_password}',
-        from_email=settings.EMAIL_HOST_USER,
-        recipient_list=[email]
-    )
-
-
-def send_reset_password(new_password, email):
-    send_mail(
-        subject="Смена пароля на сайте MailMagic",
-        message=f"Ваш новый пароль: {new_password}",
         from_email=settings.EMAIL_HOST_USER,
         recipient_list=[email]
     )
