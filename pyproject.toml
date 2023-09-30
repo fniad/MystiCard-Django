@@ -1,0 +1,24 @@
+[tool.poetry]
+name = "hw19-2"
+version = "0.1.0"
+description = ""
+authors = ["fniad <artkamproject@gmail.com>"]
+readme = "README.md"
+packages = [{include = "hw19"}]
+
+[tool.poetry.dependencies]
+python = "^3.10"
+redis = "^5.0.1"
+python-dotenv = "^1.0.0"
+pytz = "^2023.3.post1"
+django = "^4.2.5"
+python-decouple = "^3.8"
+pytils = "^0.4.1"
+pillow = "^10.0.1"
+psycopg2-binary = "^2.9.8"
+secure-smtplib = "^0.1.1"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"

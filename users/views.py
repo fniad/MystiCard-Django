@@ -1,12 +1,8 @@
-import random
-import string
-
 from django.conf import settings
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.views import LoginView, LogoutView
-from django.core.mail import send_mail
 from django.shortcuts import redirect, render
 from django.urls import reverse_lazy, reverse
 from django.views import View
@@ -15,6 +11,7 @@ from django.contrib.auth.models import Group
 from users.forms import UserRegisterForm, UserProfileForm, UserAuthenticationForm, ResetPasswordForm
 
 from users.models import User
+from users.services import send_new_password, send_reset_password, generate_vrf_token, send_hello_and_confirm_url
 
 
 class UserLoginView(LoginView):
@@ -42,18 +39,13 @@ class RegisterView(CreateView):
     def form_valid(self, form):
         user = form.save(commit=False)
         user.is_active = False
-        characters = string.ascii_letters + string.digits + string.punctuation
-        vrf_token = ''.join(random.choice(characters) for _ in range(12))
+        vrf_token = generate_vrf_token()
         confirm_url = self.request.build_absolute_uri(reverse('users:confirm', args=[vrf_token]))
         user.vrf_token = vrf_token
         user.save()
 
-        send_mail(
-            subject='Поздравляем с регистрацией на сайте MailMagic',
-            message=f'Пожалуйста, подтвердите свою электронную почту по ссылке {confirm_url}.',
-            from_email=settings.EMAIL_HOST_USER,
-            recipient_list=[user.email]
-        )
+        send_hello_and_confirm_url(confirm_url, user.email)
+
         return super().form_valid(form)
 
 
@@ -82,19 +74,13 @@ class ProfileView(LoginRequiredMixin, UpdateView):
 
 
 @login_required
-def generate_new_password(request, length=12):
-    characters = string.ascii_letters + string.digits + string.punctuation
-    new_password = ''.join(random.choice(characters) for _ in range(length))
-
-    send_mail(
-        subject='Вы сменили пароль',
-        message=f'Ваш новый пароль: {new_password}',
-        from_email=settings.EMAIL_HOST_USER,
-        recipient_list=[request.user.email]
-    )
-
+def generate_new_password(request):
+    new_password = generate_new_password()
     request.user.set_password(new_password)
     request.user.save()
+
+    send_new_password(request.user.email, new_password)
+
     return redirect(reverse('catalog:list_product'))
 
 
@@ -105,20 +91,12 @@ def reset_password(request):
         user_email = form.cleaned_data['email']
         try:
             user = User.objects.get(email=user_email)
-            characters = string.ascii_letters + string.digits + string.punctuation
-            new_password = ''.join(random.choice(characters) for _ in range(12))
+            new_password = generate_new_password()
             user.set_password(new_password)
             user.save()
 
-            subject = "Смена пароля на сайте MailMagic"
-            message = f"Ваш новый пароль: {new_password}"
-            from_email = settings.EMAIL_HOST_USER
-            send_mail(
-                subject=subject,
-                message=message,
-                from_email=from_email,
-                recipient_list=[user_email]
-            )
+            send_reset_password(new_password, user_email)
+
             return redirect(reverse("users:login"))
         except User.DoesNotExist:
             return render(request, 'users/change_password.html', {'error_message': 'User not found'})

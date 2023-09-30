@@ -1,69 +1,71 @@
+{% extends 'catalog/base.html' %}
 {% load static %}
 {% load my_tags %}
 
+{% block content %}
+
 {% if user.is_authenticated %}
+<div class="container" style="padding-top: 40px;">
+    <h3 class="display-5 text-center fw-normal text-body-emphasis" style="padding-top: 30px;">Товары</h3>
+    <hr style="border: 0; height: 1px; background-color: #6c757d;">
+    {% if perms.catalog.add_product %}
+    <div class="col-6" style="padding-top: 20px; padding-bottom: 10px; padding-left:10 px;">
+        <a class="btn btn-sm btn-outline-secondary" href="{% url 'catalog:create_product' %}">Добавить товар</a>
+    </div>
+    {% endif %}
+    <div class="container" style="padding-top: 50px;">
+        {% if page_obj %}
+        <div class="row mb-3">
+            {% for object in page_obj %}
+            {% if object.is_published %}
+            <div class="col-4" style="padding-bottom: 20px;">
+                <div class="card shadow-sm" style="height: 600px;">
+                    <div class="bd-placeholder-img card-img-top"
+                         style="height: 200px; overflow: hidden;">
+                        <img src="{% mediapath object.preview_img %}" class="img-fluid"
+                             style="width: 100%; height: 100%; object-fit: cover;">
+                    </div>
+                    <div class="card-body" style="height: 250px;">
+                        <div class="position-relative">
+                            <p class="card-text text-end"
+                               style="padding-top: 15px; min-height: 10px; max-height: 10px; font-size: 70%;">
+                                {{ object.category }}
+                            </p>
 
-<hr style="border: 0; height: 1px; background-color: #6c757d;">
-{% if perms.catalog.add_product %}
-<div class="col-6 mb-1">
-    <a class="btn btn-sm btn-outline-secondary" href="{% url 'catalog:create_product' %}">Добавить товар</a>
-</div>
-{% endif %}
-<h3 class="display-5 text-center fw-normal text-body-emphasis" style="padding-top: 30px;">Товары</h3>
+                            {% if object.name_product|length > 35 %}
+                            <p class="card-text" style="font-size: 120%; padding-top: 10px; padding-bottom: 5px;">
+                                <a href="{% url 'catalog:view_product' object.pk %}" style="color: green;">
+                                    {{ object.name_product|slice:":35" }}...</a>
+                            </p>
+                            {% else %}
+                            <p class="card-text" style="font-size: 120%; padding-top: 10px; padding-bottom: 5px;">
+                                <a href="{% url 'catalog:view_product' object.pk %}" style="color: green;">
+                                    {{ object.name_product }}</a>
+                            </p>
+                            {% endif %}
 
-<div class="container" style="padding-top: 50px;">
-    {% if page_obj %}
-    <div class="row mb-3">
-        {% for object in page_obj %}
-        {% if object.is_published %}
-        <div class="col-4" style="padding-bottom: 20px;">
-            <div class="card shadow-sm" style="height: 600px;">
-                <div class="bd-placeholder-img card-img-top"
-                     style="height: 200px; overflow: hidden;">
-                    <img src="{% mediapath object.preview_img %}" class="img-fluid"
-                         style="width: 100%; height: 100%; object-fit: cover;">
-                </div>
-                <div class="card-body" style="height: 250px;">
-                    <div class="position-relative">
-                        <p class="card-text text-end"
-                           style="padding-top: 15px; min-height: 10px; max-height: 10px; font-size: 70%;">
-                            {{ object.category }}
-                        </p>
+                            {% if object.description_product|length > 200 %}
+                            <p class="card-text"
+                               style="min-height: 120px; max-height: 120px; font-size: 85%;">
+                                {{ object.description_product|slice:":200" }}...</p>
+                            {% else %}
+                            <p class="card-text"
+                               style="min-height: 120px; max-height: 120px; font-size: 85%;">
+                                {{ object.description_product|slice:":200" }}</p>
+                            {% endif %}
 
-                        {% if object.name_product|length > 35 %}
-                        <p class="card-text" style="font-size: 120%; padding-top: 10px; padding-bottom: 5px;">
-                            <a href="{% url 'catalog:view_product' object.pk %}" style="color: green;">
-                                {{ object.name_product|slice:":35" }}...</a>
-                        </p>
-                        {% else %}
-                        <p class="card-text" style="font-size: 120%; padding-top: 10px; padding-bottom: 5px;">
-                            <a href="{% url 'catalog:view_product' object.pk %}" style="color: green;">
-                                {{ object.name_product }}</a>
-                        </p>
-                        {% endif %}
-
-                        {% if object.description_product|length > 200 %}
-                        <p class="card-text"
-                           style="min-height: 120px; max-height: 120px; font-size: 85%;">
-                            {{ object.description_product|slice:":200" }}...</p>
-                        {% else %}
-                        <p class="card-text"
-                           style="min-height: 120px; max-height: 120px; font-size: 85%;">
-                            {{ object.description_product|slice:":200" }}</p>
-                        {% endif %}
-
-                        <p class="card-text" style="font-size: 130%;">{{ object.purchase_price }} руб.</p>
-                        <div class="btn-group" style="grid-row: 3">
-                            <button type="button" class="btn btn-sm btn-outline-secondary">Добавить в корзину
-                            </button>
+                            <p class="card-text" style="font-size: 130%;">{{ object.purchase_price }} руб.</p>
+                            <div class="btn-group" style="grid-row: 3">
+                                <button type="button" class="btn btn-sm btn-outline-secondary">Добавить в корзину
+                                </button>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
-        </div>
-        {% endif %}
-        {% endfor %}
-        <div class="pagination">
+            {% endif %}
+            {% endfor %}
+            <div class="pagination">
             <span class="step-links">
                 {% if page_obj.has_previous %}
                     <a href="?page=1">&laquo; первая</a>
@@ -75,20 +77,26 @@
                     <a href="?page={{ page_obj.paginator.num_pages }}">последняя &raquo;</a>
                 {% endif %}
             </span>
+            </div>
+            {% else %}
+            {% if not pers.product.add_product %}
+            <div class="row">
+                 <div class="text text-center"><p>Вы пока не добавили никаких товаров.</p></div>
+            </div>
+            {% else %}
+            <div class="row">
+                <div class="text text-center"><p>Товаров пока нет, но скоро они обязательно появятся.</p></div>
+            </div>
+            {% endif %}
+            {% endif %}
         </div>
-        {% else %}
-        {% if pers.product.add_product %}
-        <div class="row">
-            <div class="text text-center"><p>Вы пока не добавили никаких товаров.</p></div>
-        </div>
-        {% endif %}
-        {% endif %}
+    </div>
+    {% else %}
+    <div class="row text-center" style="padding-top: 30px;">
+        <p>Войдите, чтобы увидеть товары.</p>
+        <a href="{% url 'users:login' %}">Перейти ко входу.</a>
     </div>
 </div>
-{% else %}
-<div class="row text-center" style="padding-top: 30px;">
-    <p>Войдите, чтобы увидеть товары.</p>
-    <a href="{% url 'users:login' %}">Перейти ко входу.</a>
-</div>
-
 {% endif %}
+
+{% endblock %}

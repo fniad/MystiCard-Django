@@ -2,7 +2,6 @@ from datetime import datetime
 
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
-from django.core.paginator import Paginator
 from django.forms import inlineformset_factory
 from django.shortcuts import render, get_object_or_404, redirect
 from django.urls import reverse, reverse_lazy
@@ -12,17 +11,36 @@ from django.views.generic import DetailView, ListView, CreateView, UpdateView, D
 from catalog.forms import ProductForm, VersionForm
 from catalog.models import ContactFormMessage, Product, Version
 
+from catalog.services import get_categories_cache
+
 
 class ProductListView(ListView):
     model = Product
     paginate_by = 6
-    template_name = 'catalog/index.html'
+    template_name = 'catalog:list_product'
 
     # def get_queryset(self):
     #     queryset = super().get_queryset()
     #     if not self.request.user.is_staff:
     #         queryset = super().get_queryset().filter(owner=self.request.user)
     #     return queryset
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        return context
+
+
+class ProductWithFilterListView(ListView):
+    model = Product
+    paginate_by = 6
+    template_name = 'catalog:list_product'
+
+    def get_queryset(self):
+        queryset = super().get_queryset()
+        category_id = self.kwargs.get('category_id')
+        if category_id:
+            queryset = queryset.filter(category__id=category_id)
+        return queryset
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -140,11 +158,13 @@ def contact(request):
     return render(request, 'catalog/contact.html', context)
 
 
+@login_required
 def courses(request):
     context = {
         'title': 'Курсы'
     }
     return render(request, 'catalog/courses.html', context)
+
 
 @login_required
 def toggle_publish(request, pk):
@@ -157,3 +177,11 @@ def toggle_publish(request, pk):
         product.save()
         return redirect('catalog:list_product')
     return redirect('catalog:view_product', pk=pk)
+
+
+def categories(request):
+    context = {
+        'object_list': get_categories_cache(),
+        'title': 'Товары по категориям'
+    }
+    return render(request, 'catalog/index.html', context)
