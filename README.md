@@ -1,46 +1,60 @@
-Инструкция по запуску проекта на ОС Linux Ubuntu
+# MystiCard - Web-магазин и сайт для продажи курсов
 
-Шаг 1. Клонирование репозитория
+## Функционал
 
-1. git clone https://github.com/fniad/hw19.2.git
-2. cd hw19.2
+- Добавление товаров на сайт: их редактирование, удаление.
+- Просмотр других товаров сайта.
+- Просмотр по категориям.
+- Возможность управления версиями товаров (по дате поставок).
+- Настроеные права для модератора и контент-менеджера блога.
 
-Шаг 2. Установка зависимостей
+## Блог
 
-1. python3 poetry install
-2. poetry shell
+В блоге MystiCard статьи, рассказывающие о картах таро и других эзотерических товарах.
 
-Шаг 3. Установка и настройка Redis
+## Инструкция по запуску проекта на ОС Linux Ubuntu
 
-1. sudo apt-get install redis-server
-2. sudo service redis-server start
-3. redis-cli ping (в ответ должно прийти 'PONG')
+### Шаг 1. Клонирование репозитория
 
-Шаг 4. Установка и настройка PostgreSQL
+1. ```git clone https://github.com/fniad/MystiCard-Django.git```
+2. ```cd mysticard-django```
 
-1. sudo apt-get install postgresql
-2. sudo -u postgres psql
-3. CREATE DATABASE db_tarot_internet_shop;
-4. \q
+### Шаг 2. Установка зависимостей
 
-Шаг 5. Настройка окружения
+1. ```python3 poetry install```
+2. ```poetry shell```
 
-1. touch .env
-2. nano .env и заполнить по шаблону из .env.test
+### Шаг 3. Установка и настройка Redis
 
-Шаг 6. Применение миграций
+1. ```sudo apt-get install redis-server```
+2. ```sudo service redis-server start```
+3. ```redis-cli ping``` (в ответ должно прийти **'PONG'**)
 
-1. python3 manage.py migrate
+### Шаг 4. Установка и настройка PostgreSQL
 
-Шаг 7. Загрузка данных с помощью команд 
+1. ```sudo apt-get install postgresql```
+2. ```sudo -u postgres psql```
+3. ```CREATE DATABASE db_tarot_internet_shop;```
+4. ```\q```
 
-1. python3 manage.py fill_db
+### Шаг 5. Настройка окружения
 
-Шаг 8. Создание суперпользователя, а также модератора и блоггера. Раздача прав доступа.
+1. ```touch .env```
+2. ```nano .env``` и заполнить по шаблону из **.env.test**
 
-1. python3 manage.py csu
-2. python3 manage.py create_groups
-3. python3 manage.py create_moderator_and_blogger
+### Шаг 6. Применение миграций
 
-Шаг 9. Запуск сервера
-1. python3 manage.py runserver
+1. ```python3 manage.py migrate```
+
+### Шаг 7. Загрузка данных с помощью команд 
+
+1. ```python3 manage.py fill_db```
+
+### Шаг 8. Создание суперпользователя, а также модератора и блоггера. Раздача прав доступа.
+
+1. ```python3 manage.py csu```
+2. ```python3 manage.py create_groups```
+3. ```python3 manage.py create_moderator_and_blogger```
+
+### Шаг 9. Запуск сервера
+1. ```python3 manage.py runserver```
