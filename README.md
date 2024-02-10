@@ -21,7 +21,7 @@
 
 ### Шаг 2. Установка зависимостей
 
-1. ```python3 poetry install```
+1. ```poetry install```
 2. ```poetry shell```
 
 ### Шаг 3. Установка и настройка Redis
